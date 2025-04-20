@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Control Panel</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #111827;
+        color: #f3f4f6;
+        margin: 0;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+        max-width: 800px;
+        width: 100%;
+      }
+      .sliders {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        width: 100%;
+        max-width: 800px;
+      }
+      .control-item,
+      .slider-item {
+        background: #1f2937;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      label {
+        margin-bottom: 0.5rem;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>OpenFrameworks Control Panel</h1>
+
+    <div class="controls" id="toggles"></div>
+    <div class="sliders" id="sliders"></div>
+    <script>
+      let total_parameters = 0;
+
+      const socket = new WebSocket("wss://ws.42ls.online/client-ws");
+
+      socket.onopen = () => {
+        console.log("Connected to FastAPI backend");
+      };
+
+      socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const { id, param } = data;
+
+        // Update sliders
+        if (id.startsWith("slider_")) {
+          const index = parseInt(id.split("_")[1]);
+          const slider = document.querySelector(`#slider_${index}`);
+          if (slider) slider.value = param;
+        }
+
+        // Update toggles
+        if (id.startsWith("toggle_")) {
+          const index = parseInt(id.split("_")[1]);
+          const checkbox = document.querySelector(`#toggle_${index}`);
+          if (checkbox) checkbox.checked = !!param;
+        }
+      };
+
+      function sendMessage(id, value) {
+        // convert to string for JSON
+        // if (typeof value === "number") {
+        //   value = value.toString();
+        // }
+        // if (typeof id === "number") {
+        //   id = id.toString();
+        // }
+
+        const message = JSON.stringify({
+          id,
+          param: parseInt(value),
+          total_parameters: total_parameters,
+        });
+        socket.send(message);
+      }
+
+      // Create 4x2 toggle grid
+      const toggleContainer = document.getElementById("toggles");
+      for (let i = 0; i < 8; i++) {
+        const div = document.createElement("div");
+        div.className = "control-item";
+
+        const label = document.createElement("label");
+        label.textContent = `Toggle ${i}`;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `toggle_${i}`;
+        checkbox.onchange = () =>
+          sendMessage(`toggle_${i}`, checkbox.checked ? 1 : 0);
+
+        div.appendChild(label);
+        div.appendChild(checkbox);
+        toggleContainer.appendChild(div);
+        total_parameters++;
+      }
+
+      // Create 16 sliders
+      const sliderContainer = document.getElementById("sliders");
+      for (let i = 0; i < 16; i++) {
+        const div = document.createElement("div");
+        div.className = "slider-item";
+
+        const label = document.createElement("label");
+        label.textContent = `Slider ${i}`;
+
+        const slider = document.createElement("input");
+        slider.type = "range";
+        slider.min = 0;
+        slider.max = 1000;
+        slider.value = 500;
+        slider.id = `slider_${i}`;
+        slider.oninput = () =>
+          sendMessage(`slider_${i}`, slider.value.toString());
+
+        div.appendChild(label);
+        div.appendChild(slider);
+        sliderContainer.appendChild(div);
+        total_parameters++;
+      }
+    </script>
+  </body>
+</html>

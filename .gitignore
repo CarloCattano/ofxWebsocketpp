@@ -1,0 +1,13 @@
+bin/*.so
+bin/pong42
+.compiler_flags
+*.d
+*.o
+*.so
+*.idx
+*.jpg
+.cache/
+.vscode/
+obj/
+compile_commands.json
+tags
