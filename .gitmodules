@@ -1,3 +1,7 @@
 [submodule "libs/websocketpp"]
 	path = libs/websocketpp
 	url = https://github.com/jcelerier/websocketpp.git
+[submodule "libs/libs/websocketpp"]
+	path = libs/libs/websocketpp
+	url = https://github.com/jcelerier/websocketpp.git
+	branch = ossia/2024-12-18
