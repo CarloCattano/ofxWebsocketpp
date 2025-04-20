@@ -1,5 +1,5 @@
 bin/*.so
-bin/pong42
+bin/websocket
 .compiler_flags
 *.d
 *.o

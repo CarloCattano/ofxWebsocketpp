@@ -68,10 +68,9 @@ void ofWebSocket::parsePayload(const std::string & payload) {
 
 void ofWebSocket::onMessageInternal(websocketpp::connection_hdl hdl, message_ptr msg) {
 	std::string payload = msg->get_payload();
-	ofLogNotice("ofWebSocket") << "Message received: " << payload;
+	ofLogVerbose("ofWebSocket") << "Message received: " << payload;
 
 	if (onMessage) {
-
 		onMessage(payload);
 		parsePayload(payload);
 	}

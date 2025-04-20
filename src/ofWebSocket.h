@@ -18,8 +18,6 @@ public:
 
 	std::function<void(const std::string &)> onMessage;
 
-	// Structure to hold the parsed data and send
-	// to the of UI and main thread
 	struct ParsedData {
 		std::string id;
 		int param;

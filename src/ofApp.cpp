@@ -4,7 +4,6 @@
 void ofApp::setup() {
 	webSocket.onMessage = [&](const std::string & msg) {
 		ofLogNotice() << "Received: " << msg;
-		// Handle the message as needed
 	};
 
 	webSocket.connect("ws://ws.42ls.online/of-ws");
@@ -45,9 +44,7 @@ void ofApp::draw() {
 
 		ofTrueTypeFont font;
 
-		font.load("verdana.ttf", 32, true, true);
-		// font.setLetterSpacing(1.037);
-		// font.setLineHeight(34.0f);
+		font.load("verdana.ttf", 24, true, true);
 		font.drawString("x: " + ofToString(x), 10, 50);
 		font.drawString("y: " + ofToString(y), 10, 100);
 		font.drawString("radius: " + ofToString(radius), 10, 150);
@@ -109,7 +106,3 @@ void ofApp::gotMessage(ofMessage msg) {
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo) {
 }
-
-// void ofApp::exit() {
-// 	webSocket.close();
-// }
