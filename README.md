@@ -1,30 +1,21 @@
-# About emptyExample
+# Websockets in openFrameworks
 
-![Screenshot of emptyExample](emptyExample.png)
+Wrapper for websocketpp c++ library, basic usage example and a simple server.
 
-### Learning Objectives
+## Installation
 
-This example is the simplest possible openFrameworks app! It does nothing. 
+### Requirements
 
-...Well, *almost* nothing. Although it may not be apparent, the emptyExample activates all of the default system states. (For example, it sets the default fill color to white; it just doesn't happen to draw anything with it.)
+1. Virtualenv for running the fastapi server server.py
 
-The emptyExample is great for making sure that your openFrameworks development environment is compiling properly. It can also be useful as a "starter template" for making simple programs. 
+   - TODO: requirements.txt and step by step instructions
 
-The emptyExample will help you understand what are the bare necessities of an openFrameworks program. In this regard, you can think of it as a "Hello World" for OF. 
+2. Static web served to connect and communicate with the websocket
 
+3. openFrameworks listening to the remote parameters receiving end
 
-### Expected Behavior
+### Install websocketpp
 
-When launching this app, you should see a light-gray screen. 
-
-* There's no interaction. 
-* There's nothing to see. 
-* That's it. 
-
-Instructions for using the app:
-
-* There's nothing to do. Move along.
-
-### Other classes used in this file
-
-This example uses no other classes.# ofxWebsocketpp
+1. Clone this repo
+2. Make sure you use --recursive or update the submodules after cloning
+3. TODO: make an addon
